@@ -3,6 +3,9 @@ name: Test NSE Data Collector
 on:
   workflow_dispatch:
 
+  schedule:
+   - cron: "30 12 * * 1-5"
+
 permissions:
   contents: write
 
