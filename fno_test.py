@@ -19,6 +19,18 @@ try:
 
     print("\nColumns:")
     print(list(data.columns))
+    print("\nFinInstrmTp values:")
+print(data["FinInstrmTp"].value_counts(dropna=False))
+
+print("\nSctySrs values:")
+print(data["SctySrs"].value_counts(dropna=False))
+
+print("\nOption contracts by SctySrs:")
+print(
+    data[
+        data["OptnTp"].isin(["CE", "PE"])
+    ]["SctySrs"].value_counts(dropna=False)
+)
 
     print("\nFirst 10 rows:")
     print(data.head(10))
