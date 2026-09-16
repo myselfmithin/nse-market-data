@@ -12,7 +12,8 @@ import json
 BOT_TOKEN = os.getenv("FNO_TELEGRAM_BOT_TOKEN")
 CHAT_ID = os.getenv("FNO_TELEGRAM_CHAT_ID")
 
-MIN_OI_VOLUME_RATIO = 10
+MIN_OI_VOLUME_RATIO = 5
+MIN_VOLUME = 10000
 MAX_ALERTS = 20
 
 HISTORY_FILE = "fno_alert_history.json"
@@ -352,10 +353,18 @@ merged["OI_Volume_Ratio"] = (
 
 signal = merged[
 
-    # OI / Volume > 10
+    # OI / Volume > 5
     (
         merged["OI_Volume_Ratio"]
         > MIN_OI_VOLUME_RATIO
+    )
+
+    &
+
+    # Minimum daily volume
+    (
+        merged["TtlTradgVol"]
+        >= MIN_VOLUME
     )
 
     &
@@ -365,36 +374,6 @@ signal = merged[
         merged["ChngInOpnIntrst"]
         > 0
     )
-
-    &
-
-    # COI increasing
-    (
-        merged["ChngInOpnIntrst"]
-        >
-        merged["Prev_COI"]
-    )
-
-    &
-
-    # Underlying price increasing
-    (
-        merged["UndrlygPric"]
-        >
-        merged["Prev_UnderlyingPrice"]
-    )
-
-    &
-
-    # Option price increasing
-    (
-        merged["ClsPric"]
-        >
-        merged["Prev_OptionPrice"]
-    )
-
-].copy()
-
 
 # ============================================================
 # PRICE CHANGE
