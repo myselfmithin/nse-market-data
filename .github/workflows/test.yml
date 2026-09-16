@@ -19,14 +19,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          
-      - name: Combine historical data
-        run: |
-          python combine_data.py
-          
+
       - name: Collect NSE data
         run: |
           python collect_data.py
+
+      - name: Combine historical data
+        run: |
+          python combine_data.py
 
       - name: Show generated files
         run: |
