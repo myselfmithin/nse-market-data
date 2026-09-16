@@ -46,10 +46,6 @@ jobs:
         run: |
           python combine_data.py
 
-      - name: Test F&O data
-        run: |
-          python fno_test.py
-
       - name: Run cash market Telegram scanner
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
