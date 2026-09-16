@@ -1,6 +1,5 @@
 from nselib import derivatives
 
-
 print("=" * 60)
 print("Testing NSE F&O data")
 print("=" * 60)
@@ -19,18 +18,36 @@ try:
 
     print("\nColumns:")
     print(list(data.columns))
+
     print("\nFinInstrmTp values:")
-print(data["FinInstrmTp"].value_counts(dropna=False))
+    print(
+        data["FinInstrmTp"].value_counts(
+            dropna=False
+        )
+    )
 
-print("\nSctySrs values:")
-print(data["SctySrs"].value_counts(dropna=False))
+    print("\nSctySrs values:")
+    print(
+        data["SctySrs"].value_counts(
+            dropna=False
+        )
+    )
 
-print("\nOption contracts by SctySrs:")
-print(
-    data[
-        data["OptnTp"].isin(["CE", "PE"])
-    ]["SctySrs"].value_counts(dropna=False)
-)
+    print("\nOption contracts by SctySrs:")
+    print(
+        data[
+            data["OptnTp"].isin(["CE", "PE"])
+        ]["SctySrs"].value_counts(
+            dropna=False
+        )
+    )
+
+    print("\nOption types:")
+    print(
+        data["OptnTp"].value_counts(
+            dropna=False
+        )
+    )
 
     print("\nFirst 10 rows:")
     print(data.head(10))
