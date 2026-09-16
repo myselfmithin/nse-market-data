@@ -455,7 +455,11 @@ def format_lakh(value):
     except:
 
         return "-"
-
+def format_contracts(value):
+    try:
+        return f"{value:,.0f}"
+    except:
+        return "-"
 
 # ============================================================
 # TELEGRAM
@@ -573,9 +577,7 @@ for _, row in signal.iterrows():
         row["Prev_COI"]
     )
 
-    volume = format_lakh(
-        row["TtlTradgVol"]
-    )
+    volume = format_contracts(row["TtlTradgVol"])
 
     ratio = row["OI_Volume_Ratio"]
 
