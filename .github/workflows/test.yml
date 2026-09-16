@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -27,16 +28,16 @@ jobs:
         run: |
           python collect_data.py
 
+      - name: Combine historical data
+        run: |
+          python combine_data.py
+
       - name: Run cash market Telegram scanner
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python cash_alerts.py
-
-      - name: Combine historical data
-        run: |
-          python combine_data.py
 
       - name: Show generated files
         run: |
@@ -54,6 +55,11 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+
           git add Cash_Historical.csv
-          git commit -m "Update Cash Historical data" || echo "No changes to commit"
+          git add cash_data/
+          git add alert_history.json
+
+          git commit -m "Update Cash Historical data and alerts" || echo "No changes to commit"
+
           git push
