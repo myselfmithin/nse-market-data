@@ -352,36 +352,8 @@ merged["OI_Volume_Ratio"] = (
 # ============================================================
 
 signal = merged[
-
-    # OI / Volume > 5
-    (
-        merged["OI_Volume_Ratio"]
-        > MIN_OI_VOLUME_RATIO
-    )
-
-    &
-
-    # Minimum daily volume
-    (
-        merged["TtlTradgVol"]
-        >= MIN_VOLUME
-    )
-
-    &
-
-    # COI positive
-    (
-        merged["ChngInOpnIntrst"]
-        > 0
-    )
-
-signal = merged[
-    # OI / Volume > 5
     (merged["OI_Volume_Ratio"] > MIN_OI_VOLUME_RATIO)
-
     &
-
-    # Minimum volume: 10,000 contracts
     (merged["TtlTradgVol"] >= MIN_VOLUME)
 ].copy()
       
