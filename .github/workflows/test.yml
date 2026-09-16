@@ -27,6 +27,13 @@ jobs:
         run: |
           python collect_data.py
 
+      - name: Run cash market Telegram scanner
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python cash_alerts.py
+
       - name: Combine historical data
         run: |
           python combine_data.py
