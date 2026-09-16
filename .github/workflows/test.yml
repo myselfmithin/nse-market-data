@@ -19,7 +19,11 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-
+          
+      - name: Combine historical data
+        run: |
+          python combine_data.py
+          
       - name: Collect NSE data
         run: |
           python collect_data.py
@@ -27,3 +31,11 @@ jobs:
       - name: Show generated files
         run: |
           ls -lh
+
+      - name: Upload historical data
+        uses: actions/upload-artifact@v4
+        with:
+          name: cash-historical
+          path: |
+            Cash_Historical.csv
+            cash_data/
