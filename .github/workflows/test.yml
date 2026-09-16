@@ -3,6 +3,9 @@ name: Test NSE Data Collector
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   collect:
     runs-on: ubuntu-latest
