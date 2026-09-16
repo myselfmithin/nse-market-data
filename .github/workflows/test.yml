@@ -35,6 +35,13 @@ jobs:
         run: |
           python collect_fno.py
 
+      - name: Run F&O Telegram scanner
+        env:
+          FNO_TELEGRAM_BOT_TOKEN: ${{ secrets.FNO_TELEGRAM_BOT_TOKEN }}
+          FNO_TELEGRAM_CHAT_ID: ${{ secrets.FNO_TELEGRAM_CHAT_ID }}
+        run: |
+          python fno_alerts.py
+
       - name: Combine historical data
         run: |
           python combine_data.py
