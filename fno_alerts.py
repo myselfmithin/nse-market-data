@@ -355,6 +355,10 @@ signal = merged[
     (merged["OI_Volume_Ratio"] > MIN_OI_VOLUME_RATIO)
     &
     (merged["TtlTradgVol"] >= MIN_VOLUME)
+    &
+    (merged["ChngInOpnIntrst"] > 0)
+    &
+    (merged["ChngInOpnIntrst"] > merged["Prev_COI"])
 ].copy()
       
 # ============================================================
