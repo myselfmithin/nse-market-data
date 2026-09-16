@@ -1,0 +1,142 @@
+{
+  "2026-09-16_ICICIBANK_29-Sep-2026_1480.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "ICICIBANK",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 1480.0
+  },
+  "2026-09-16_SAIL_29-Sep-2026_175.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "SAIL",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 175.0
+  },
+  "2026-09-16_PNB_29-Sep-2026_110.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "PNB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 110.0
+  },
+  "2026-09-16_NBCC_29-Sep-2026_105.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "NBCC",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 105.0
+  },
+  "2026-09-16_PNB_29-Sep-2026_112.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "PNB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 112.0
+  },
+  "2026-09-16_PNB_29-Sep-2026_126.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "PNB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 126.0
+  },
+  "2026-09-16_ONGC_29-Sep-2026_227.5_CE": {
+    "date": "2026-09-16",
+    "symbol": "ONGC",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 227.5
+  },
+  "2026-09-16_ITC_29-Sep-2026_295.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "ITC",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 295.0
+  },
+  "2026-09-16_JSWSTEEL_29-Sep-2026_1420.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "JSWSTEEL",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1420.0
+  },
+  "2026-09-16_IOC_29-Sep-2026_142.5_PE": {
+    "date": "2026-09-16",
+    "symbol": "IOC",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 142.5
+  },
+  "2026-09-16_BANKINDIA_29-Sep-2026_132.5_PE": {
+    "date": "2026-09-16",
+    "symbol": "BANKINDIA",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 132.5
+  },
+  "2026-09-16_BPCL_29-Sep-2026_360.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "BPCL",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 360.0
+  },
+  "2026-09-16_IDFCFIRSTB_29-Sep-2026_84.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "IDFCFIRSTB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 84.0
+  },
+  "2026-09-16_PNB_29-Sep-2026_105.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "PNB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 105.0
+  },
+  "2026-09-16_PNB_29-Sep-2026_124.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "PNB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 124.0
+  },
+  "2026-09-16_OIL_29-Sep-2026_470.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "OIL",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 470.0
+  },
+  "2026-09-16_IOC_29-Sep-2026_155.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "IOC",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 155.0
+  },
+  "2026-09-16_KOTAKBANK_29-Sep-2026_395.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "KOTAKBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 395.0
+  },
+  "2026-09-16_IDFCFIRSTB_29-Sep-2026_82.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "IDFCFIRSTB",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 82.0
+  },
+  "2026-09-16_ONGC_29-Sep-2026_190.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "ONGC",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 190.0
+  }
+}
