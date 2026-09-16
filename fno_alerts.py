@@ -2,6 +2,7 @@ import pandas as pd
 import requests
 import os
 import glob
+import json
 
 
 # ============================================================
@@ -14,16 +15,42 @@ CHAT_ID = os.getenv("FNO_TELEGRAM_CHAT_ID")
 MIN_OI_VOLUME_RATIO = 10
 MAX_ALERTS = 20
 
+HISTORY_FILE = "fno_alert_history.json"
+
 
 # ============================================================
 # CHECK TELEGRAM SETTINGS
 # ============================================================
 
 if not BOT_TOKEN or not CHAT_ID:
-
     raise Exception(
         "FNO Telegram secrets are missing."
     )
+
+
+# ============================================================
+# LOAD ALERT HISTORY
+# ============================================================
+
+if os.path.exists(HISTORY_FILE):
+
+    try:
+
+        with open(
+            HISTORY_FILE,
+            "r",
+            encoding="utf-8"
+        ) as file:
+
+            alert_history = json.load(file)
+
+    except Exception:
+
+        alert_history = {}
+
+else:
+
+    alert_history = {}
 
 
 # ============================================================
@@ -93,7 +120,7 @@ previous.columns = previous.columns.str.strip()
 
 
 # ============================================================
-# KEEP STOCK OPTIONS ONLY
+# STOCK OPTIONS ONLY
 # STO = STOCK DERIVATIVES
 # ============================================================
 
@@ -172,46 +199,33 @@ previous["XpryDt"] = pd.to_datetime(
 # REMOVE INVALID DATA
 # ============================================================
 
+required_columns = [
+
+    "TckrSymb",
+    "XpryDt",
+    "StrkPric",
+    "OptnTp",
+    "ClsPric",
+    "UndrlygPric",
+    "OpnIntrst",
+    "ChngInOpnIntrst",
+    "TtlTradgVol"
+
+]
+
+
 latest = latest.dropna(
-    subset=[
-        "TckrSymb",
-        "XpryDt",
-        "StrkPric",
-        "OptnTp",
-        "ClsPric",
-        "UndrlygPric",
-        "OpnIntrst",
-        "ChngInOpnIntrst",
-        "TtlTradgVol"
-    ]
+    subset=required_columns
 )
 
-
 previous = previous.dropna(
-    subset=[
-        "TckrSymb",
-        "XpryDt",
-        "StrkPric",
-        "OptnTp",
-        "ClsPric",
-        "UndrlygPric",
-        "OpnIntrst",
-        "ChngInOpnIntrst",
-        "TtlTradgVol"
-    ]
+    subset=required_columns
 )
 
 
 # ============================================================
 # FIND NEAREST EXPIRY FOR EACH STOCK
 # ============================================================
-
-today_date = latest["TradDt"].iloc[0]
-
-today_date = pd.to_datetime(
-    today_date
-)
-
 
 latest_expiry = (
 
@@ -248,10 +262,12 @@ latest = latest[
 # ============================================================
 
 previous_key = [
+
     "TckrSymb",
     "XpryDt",
     "StrkPric",
     "OptnTp"
+
 ]
 
 
@@ -292,7 +308,7 @@ previous_compare = previous_compare.rename(
 
 
 # ============================================================
-# MERGE TODAY + PREVIOUS DAY
+# MERGE TWO DAYS
 # ============================================================
 
 merged = latest.merge(
@@ -307,7 +323,7 @@ merged = latest.merge(
 
 
 print(
-    "\nContracts available for 2-day comparison:",
+    "\nContracts available for comparison:",
     len(merged)
 )
 
@@ -337,16 +353,22 @@ merged["OI_Volume_Ratio"] = (
 signal = merged[
 
     # OI / Volume > 10
-    (merged["OI_Volume_Ratio"] > MIN_OI_VOLUME_RATIO)
+    (
+        merged["OI_Volume_Ratio"]
+        > MIN_OI_VOLUME_RATIO
+    )
 
     &
 
-    # COI must be positive
-    (merged["ChngInOpnIntrst"] > 0)
+    # COI positive
+    (
+        merged["ChngInOpnIntrst"]
+        > 0
+    )
 
     &
 
-    # COI must be increasing
+    # COI increasing
     (
         merged["ChngInOpnIntrst"]
         >
@@ -355,18 +377,27 @@ signal = merged[
 
     &
 
-    # Underlying stock price increasing
+    # Underlying price increasing
     (
         merged["UndrlygPric"]
         >
         merged["Prev_UnderlyingPrice"]
     )
 
+    &
+
+    # Option price increasing
+    (
+        merged["ClsPric"]
+        >
+        merged["Prev_OptionPrice"]
+    )
+
 ].copy()
 
 
 # ============================================================
-# CALCULATE CHANGES
+# PRICE CHANGE
 # ============================================================
 
 signal["PriceChangePct"] = (
@@ -384,39 +415,8 @@ signal["PriceChangePct"] = (
 ) * 100
 
 
-signal["OptionPriceChangePct"] = (
-
-    (
-        signal["ClsPric"]
-        -
-        signal["Prev_OptionPrice"]
-    )
-
-    /
-
-    signal["Prev_OptionPrice"].replace(
-        0,
-        pd.NA
-    )
-
-) * 100
-
-
 # ============================================================
-# REQUIRE OPTION PRICE TO ALSO INCREASE
-# ============================================================
-
-signal = signal[
-
-    signal["ClsPric"]
-    >
-    signal["Prev_OptionPrice"]
-
-].copy()
-
-
-# ============================================================
-# SORT STRONGEST SIGNALS
+# SORT SIGNALS
 # ============================================================
 
 signal = signal.sort_values(
@@ -437,25 +437,14 @@ signal = signal.head(
 
 
 print(
-    "\nQualifying F&O signals:",
+    "\nPotential signals:",
     len(signal)
 )
 
 
 # ============================================================
-# FORMAT NUMBERS
+# NUMBER FORMATTING
 # ============================================================
-
-def format_number(value):
-
-    try:
-
-        return f"{value:,.0f}"
-
-    except:
-
-        return "-"
-
 
 def format_price(value):
 
@@ -480,7 +469,7 @@ def format_lakh(value):
 
 
 # ============================================================
-# TELEGRAM FUNCTION
+# TELEGRAM
 # ============================================================
 
 def send_telegram(message):
@@ -507,14 +496,25 @@ def send_telegram(message):
 
 
 # ============================================================
-# SEND ALERTS
+# SEND NEW ALERTS
 # ============================================================
+
+alerts_sent = 0
+
+latest_trade_date = pd.to_datetime(
+    latest["TradDt"].iloc[0]
+).strftime("%Y-%m-%d")
+
 
 for _, row in signal.iterrows():
 
-    symbol = row["TckrSymb"]
+    symbol = str(
+        row["TckrSymb"]
+    )
 
-    option_type = row["OptnTp"]
+    option_type = str(
+        row["OptnTp"]
+    )
 
     expiry = row["XpryDt"].strftime(
         "%d-%b-%Y"
@@ -523,6 +523,38 @@ for _, row in signal.iterrows():
     strike = format_price(
         row["StrkPric"]
     )
+
+    # Unique contract identifier
+    alert_key = (
+
+        latest_trade_date
+        + "_"
+        + symbol
+        + "_"
+        + expiry
+        + "_"
+        + str(row["StrkPric"])
+        + "_"
+        + option_type
+
+    )
+
+
+    # ========================================================
+    # DUPLICATE CHECK
+    # ========================================================
+
+    if alert_key in alert_history:
+
+        print(
+            "Already alerted:",
+            symbol,
+            option_type,
+            strike
+        )
+
+        continue
+
 
     option_price = format_price(
         row["ClsPric"]
@@ -560,6 +592,7 @@ for _, row in signal.iterrows():
 
     price_change = row["PriceChangePct"]
 
+
     message = f"""
 🟢 F&O LONG BUILDUP PROXY
 
@@ -593,27 +626,71 @@ for _, row in signal.iterrows():
 Not proof of institutional buying.
 """
 
+
     print(
-        "\nSending alert:",
+        "\nSending new alert:",
         symbol,
         option_type,
         strike
     )
+
 
     send_telegram(
         message.strip()
     )
 
 
+    # Record alert
+    alert_history[alert_key] = {
+
+        "date": latest_trade_date,
+
+        "symbol": symbol,
+
+        "option": option_type,
+
+        "expiry": expiry,
+
+        "strike": float(
+            row["StrkPric"]
+        )
+
+    }
+
+
+    alerts_sent += 1
+
+
 # ============================================================
-# NO SIGNAL
+# SAVE HISTORY
 # ============================================================
 
-if len(signal) == 0:
+with open(
 
-    print(
-        "\nNo F&O contracts matched all conditions."
+    HISTORY_FILE,
+
+    "w",
+
+    encoding="utf-8"
+
+) as file:
+
+    json.dump(
+
+        alert_history,
+
+        file,
+
+        indent=2
+
     )
 
 
-print("\nF&O scanner completed.")
+print(
+    "\nNew alerts sent:",
+    alerts_sent
+)
+
+print(
+    "F&O scanner completed."
+)
