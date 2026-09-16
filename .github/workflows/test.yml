@@ -73,6 +73,8 @@ jobs:
           git add Cash_Historical.csv
           git add cash_data/
           git add alert_history.json
+          git add fno_data/
+          git add fno_alert_history.json
 
           git commit -m "Update Cash Historical data and alerts" || echo "No changes to commit"
 
