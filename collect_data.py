@@ -1,8 +1,7 @@
-from datetime import date
 from nselib import capital_market
 
 # Test one trading day first
-trade_date = date(2026, 9, 15)
+trade_date = "15-09-2026"
 
 print("Downloading NSE data for:", trade_date)
 
