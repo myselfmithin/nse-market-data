@@ -1,2 +1,3 @@
 nselib
 pandas
+requests
