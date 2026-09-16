@@ -278,5 +278,82 @@
     "option": "PE",
     "expiry": "29-Sep-2026",
     "strike": 690.0
+  },
+  "2026-09-16_HDFCBANK_29-Sep-2026_700.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 700.0
+  },
+  "2026-09-16_HDFCBANK_29-Sep-2026_710.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 710.0
+  },
+  "2026-09-16_HDFCBANK_29-Sep-2026_680.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 680.0
+  },
+  "2026-09-16_INFY_29-Sep-2026_1100.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "INFY",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1100.0
+  },
+  "2026-09-16_AXISBANK_29-Sep-2026_1260.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "AXISBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1260.0
+  },
+  "2026-09-16_AXISBANK_29-Sep-2026_1300.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "AXISBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1300.0
+  },
+  "2026-09-16_HINDUNILVR_29-Sep-2026_2000.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "HINDUNILVR",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 2000.0
+  },
+  "2026-09-16_RELIANCE_29-Sep-2026_1250.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "RELIANCE",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 1250.0
+  },
+  "2026-09-16_INFY_29-Sep-2026_1080.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "INFY",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1080.0
+  },
+  "2026-09-16_INFY_29-Sep-2026_1120.0_CE": {
+    "date": "2026-09-16",
+    "symbol": "INFY",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1120.0
+  },
+  "2026-09-16_SBIN_29-Sep-2026_950.0_PE": {
+    "date": "2026-09-16",
+    "symbol": "SBIN",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 950.0
   }
 }
