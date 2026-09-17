@@ -19,48 +19,92 @@ df = pd.read_csv(INPUT_FILE)
 
 print("Cash data loaded.")
 print("Rows:", len(df))
+print("Columns:", df.columns.tolist())
+
+# ============================================================
+# CLEAN COLUMN NAMES
+# ============================================================
+
+df.columns = df.columns.str.strip()
+
+# ============================================================
+# CHECK REQUIRED COLUMNS
+# ============================================================
+
+required_columns = [
+    "TradDt",
+    "TckrSymb",
+    "OpnPric",
+    "HghPric",
+    "LwPric",
+    "ClsPric"
+]
+
+missing = [
+    col for col in required_columns
+    if col not in df.columns
+]
+
+if missing:
+    print("Missing columns:", missing)
+    raise SystemExit(1)
 
 # ============================================================
 # CLEAN DATA
 # ============================================================
 
-df["DATE"] = pd.to_datetime(df["DATE"], errors="coerce")
+df["TradDt"] = pd.to_datetime(
+    df["TradDt"],
+    errors="coerce"
+)
 
-for col in ["OPEN_PRICE", "HIGH_PRICE", "LOW_PRICE", "CLOSE_PRICE"]:
-    df[col] = pd.to_numeric(df[col], errors="coerce")
+for col in [
+    "OpnPric",
+    "HghPric",
+    "LwPric",
+    "ClsPric"
+]:
+    df[col] = pd.to_numeric(
+        df[col],
+        errors="coerce"
+    )
 
 df = df.dropna(
     subset=[
-        "DATE",
-        "SYMBOL",
-        "OPEN_PRICE",
-        "HIGH_PRICE",
-        "LOW_PRICE",
-        "CLOSE_PRICE"
+        "TradDt",
+        "TckrSymb",
+        "OpnPric",
+        "HghPric",
+        "LwPric",
+        "ClsPric"
     ]
 )
 
 # Keep EQ stocks only
-if "SERIES" in df.columns:
-    df = df[df["SERIES"] == "EQ"].copy()
+if "SctySrs" in df.columns:
+    df = df[
+        df["SctySrs"].astype(str).str.strip() == "EQ"
+    ].copy()
 
 # ============================================================
 # CREATE WEEKLY OHLC
 # ============================================================
 
-df = df.sort_values(["SYMBOL", "DATE"])
+df = df.sort_values(
+    ["TckrSymb", "TradDt"]
+)
 
-df["WEEK"] = df["DATE"].dt.to_period("W-FRI")
+df["WEEK"] = df["TradDt"].dt.to_period("W-FRI")
 
 weekly = (
-    df.groupby(["SYMBOL", "WEEK"])
+    df.groupby(["TckrSymb", "WEEK"])
     .agg(
-        Week_Open=("OPEN_PRICE", "first"),
-        Week_High=("HIGH_PRICE", "max"),
-        Week_Low=("LOW_PRICE", "min"),
-        Week_Close=("CLOSE_PRICE", "last"),
-        Trading_Days=("DATE", "count"),
-        Last_Date=("DATE", "max")
+        Week_Open=("OpnPric", "first"),
+        Week_High=("HghPric", "max"),
+        Week_Low=("LwPric", "min"),
+        Week_Close=("ClsPric", "last"),
+        Trading_Days=("TradDt", "count"),
+        Last_Date=("TradDt", "max")
     )
     .reset_index()
 )
@@ -69,7 +113,7 @@ weekly = (
 # REMOVE CURRENT INCOMPLETE WEEK
 # ============================================================
 
-latest_date = df["DATE"].max()
+latest_date = df["TradDt"].max()
 current_week = latest_date.to_period("W-FRI")
 
 weekly = weekly[
@@ -83,42 +127,42 @@ print("Completed weekly candles:", len(weekly))
 # ============================================================
 
 weekly["Body"] = (
-    weekly["Week_Close"] - weekly["Week_Open"]
+    weekly["Week_Close"]
+    - weekly["Week_Open"]
 ).abs()
 
 weekly["Range"] = (
-    weekly["Week_High"] - weekly["Week_Low"]
+    weekly["Week_High"]
+    - weekly["Week_Low"]
 )
 
 weekly["Upper_Wick"] = (
     weekly["Week_High"]
-    - weekly[["Week_Open", "Week_Close"]].max(axis=1)
+    - weekly[
+        ["Week_Open", "Week_Close"]
+    ].max(axis=1)
 )
 
 weekly["Lower_Wick"] = (
-    weekly[["Week_Open", "Week_Close"]].min(axis=1)
+    weekly[
+        ["Week_Open", "Week_Close"]
+    ].min(axis=1)
     - weekly["Week_Low"]
 )
 
-# Avoid division problems
-weekly = weekly[weekly["Range"] > 0].copy()
+weekly = weekly[
+    weekly["Range"] > 0
+].copy()
 
 # ============================================================
 # HAMMER CONDITIONS
 # ============================================================
 
 weekly["Hammer"] = (
-    # Small body
     (weekly["Body"] <= weekly["Range"] * 0.35)
-
     &
-
-    # Long lower wick
     (weekly["Lower_Wick"] >= weekly["Body"] * 2)
-
     &
-
-    # Small upper wick
     (weekly["Upper_Wick"] <= weekly["Body"] * 0.5)
 )
 
@@ -126,10 +170,12 @@ weekly["Hammer"] = (
 # SHOW HAMMERS
 # ============================================================
 
-hammers = weekly[weekly["Hammer"]].copy()
+hammers = weekly[
+    weekly["Hammer"]
+].copy()
 
 hammers = hammers.sort_values(
-    ["WEEK", "SYMBOL"],
+    ["WEEK", "TckrSymb"],
     ascending=[False, True]
 )
 
@@ -137,15 +183,20 @@ print()
 print("==========================================")
 print("WEEKLY HAMMER SCANNER")
 print("==========================================")
-print("Hammer candles found:", len(hammers))
+print(
+    "Hammer candles found:",
+    len(hammers)
+)
 print()
 
 if hammers.empty:
+
     print("No weekly hammer patterns found.")
 
 else:
+
     display_columns = [
-        "SYMBOL",
+        "TckrSymb",
         "WEEK",
         "Week_Open",
         "Week_High",
