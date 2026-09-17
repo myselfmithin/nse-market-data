@@ -4,6 +4,38 @@ import os
 import glob
 import json
 
+# ============================================================
+# NSE LOT SIZE
+# ============================================================
+
+NSE_LOT_SIZE_URL = "https://nsearchives.nseindia.com/content/fo/fo_mktlots.csv"
+
+
+def get_lot_sizes():
+    try:
+        response = requests.get(
+            NSE_LOT_SIZE_URL,
+            headers={
+                "User-Agent": "Mozilla/5.0",
+                "Accept": "text/csv,*/*"
+            },
+            timeout=30
+        )
+
+        response.raise_for_status()
+
+        from io import StringIO
+
+        lot_df = pd.read_csv(StringIO(response.text))
+
+        print("NSE lot-size file downloaded")
+        print("Lot-size columns:", list(lot_df.columns))
+
+        return lot_df
+
+    except Exception as e:
+        print("Could not download NSE lot-size file:", e)
+        return pd.DataFrame()
 
 # ============================================================
 # SETTINGS
