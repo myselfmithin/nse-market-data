@@ -466,7 +466,19 @@ merged["OI_Volume_Ratio"] = (
 # ============================================================
 # USER'S CONDITIONS
 # ============================================================
-
+print("SAMPLE OI/VOLUME RATIOS:")
+print(
+    merged[
+        [
+            "TckrSymb",
+            "XpryDt",
+            "LotSize",
+            "OpnIntrst",
+            "TtlTradgVol",
+            "OI_Volume_Ratio"
+        ]
+    ].head(20).to_string(index=False)
+)
 signal = merged[
     (merged["OI_Volume_Ratio"] > MIN_OI_VOLUME_RATIO)
     &
