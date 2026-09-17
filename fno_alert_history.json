@@ -369,5 +369,19 @@
     "option": "CE",
     "expiry": "29-Sep-2026",
     "strike": 1340.0
+  },
+  "2026-09-17_RELIANCE_29-Sep-2026_1300.0_PE": {
+    "date": "2026-09-17",
+    "symbol": "RELIANCE",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 1300.0
+  },
+  "2026-09-17_VEDL_29-Sep-2026_300.0_CE": {
+    "date": "2026-09-17",
+    "symbol": "VEDL",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 300.0
   }
 }
