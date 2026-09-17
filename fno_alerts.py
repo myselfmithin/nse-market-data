@@ -160,6 +160,37 @@ lot_df["SYMBOL"] = lot_df["SYMBOL"].astype(str).str.strip()
 print("Cleaned lot-size columns:")
 print(lot_df.columns.tolist())
 
+# ============================================================
+# MAP LOT SIZE TO F&O CONTRACTS
+# ============================================================
+
+def get_lot_size(symbol, expiry):
+    try:
+        expiry = pd.to_datetime(expiry)
+
+        expiry_column = expiry.strftime("%b-%y").upper()
+
+        match = lot_df[
+            lot_df["SYMBOL"].astype(str).str.upper().str.strip()
+            == str(symbol).upper().strip()
+        ]
+
+        if match.empty:
+            return None
+
+        if expiry_column not in lot_df.columns:
+            return None
+
+        lot_size = match.iloc[0][expiry_column]
+
+        if pd.isna(lot_size) or str(lot_size).strip() == "":
+            return None
+
+        return float(lot_size)
+
+    except Exception:
+        return None
+
 print(
     "\nLatest rows:",
     len(latest)
