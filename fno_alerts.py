@@ -418,6 +418,26 @@ print(
     len(merged)
 )
 
+# ============================================================
+# APPLY LOT SIZE TO CONTRACTS
+# ============================================================
+
+merged["LotSize"] = merged.apply(
+    lambda row: get_lot_size(
+        row["TckrSymb"],
+        row["XpryDt"]
+    ),
+    axis=1
+)
+
+# Remove contracts where lot size is unavailable
+merged = merged[
+    merged["LotSize"].notna()
+    &
+    (merged["LotSize"] > 0)
+].copy()
+
+print("Contracts with valid lot size:", len(merged))
 
 # ============================================================
 # OI / VOLUME
