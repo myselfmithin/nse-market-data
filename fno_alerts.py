@@ -132,6 +132,18 @@ previous = pd.read_csv(
     previous_file
 )
 
+# ============================================================
+# LOAD NSE LOT SIZES
+# ============================================================
+
+lot_df = get_lot_sizes()
+
+if lot_df.empty:
+    print("No NSE lot-size data available.")
+    raise SystemExit(0)
+
+print("Lot-size data loaded successfully.")
+
 
 print(
     "\nLatest rows:",
