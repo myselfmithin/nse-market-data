@@ -58,9 +58,40 @@ df = df.dropna(
     ]
 )
 
-# Keep EQ stocks only
+# ============================================================
+# KEEP EQUITY STOCKS ONLY
+# ============================================================
+
 df = df[
     df["SERIES"].astype(str).str.strip() == "EQ"
+].copy()
+
+# ============================================================
+# REMOVE ETF / INDEX-LIKE SYMBOLS
+# ============================================================
+
+exclude_keywords = [
+    "ETF",
+    "BEES",
+    "LIQUID",
+    "SILVER",
+    "GOLD",
+    "MOM",
+    "SENSEX",
+    "NIFTY",
+    "MID150",
+    "MIDSMALL",
+    "INFRABEES",
+    "PHARMABEES"
+]
+
+pattern = "|".join(exclude_keywords)
+
+df = df[
+    ~df["SYMBOL"]
+    .astype(str)
+    .str.upper()
+    .str.contains(pattern, na=False)
 ].copy()
 
 # ============================================================
@@ -91,13 +122,30 @@ weekly = (
 # ============================================================
 
 latest_date = df["DATE1"].max()
+
 current_week = latest_date.to_period("W-FRI")
 
 weekly = weekly[
     weekly["WEEK"] < current_week
 ].copy()
 
-print("Completed weekly candles:", len(weekly))
+print(
+    "Completed weekly candles:",
+    len(weekly)
+)
+
+# ============================================================
+# REQUIRE FULL 5-DAY WEEK
+# ============================================================
+
+weekly = weekly[
+    weekly["Trading_Days"] == 5
+].copy()
+
+print(
+    "5-day weekly candles:",
+    len(weekly)
+)
 
 # ============================================================
 # HAMMER CALCULATION
@@ -115,7 +163,8 @@ weekly["Range"] = (
 
 weekly["Upper_Wick"] = (
     weekly["Week_High"]
-    - weekly[
+    -
+    weekly[
         ["Week_Open", "Week_Close"]
     ].max(axis=1)
 )
@@ -124,27 +173,54 @@ weekly["Lower_Wick"] = (
     weekly[
         ["Week_Open", "Week_Close"]
     ].min(axis=1)
-    - weekly["Week_Low"]
+    -
+    weekly["Week_Low"]
 )
+
+# ============================================================
+# REMOVE ZERO-RANGE CANDLES
+# ============================================================
 
 weekly = weekly[
     weekly["Range"] > 0
 ].copy()
 
 # ============================================================
-# HAMMER CONDITIONS
+# CLOSE POSITION INSIDE WEEKLY RANGE
 # ============================================================
 
-weekly["Hammer"] = (
-    (weekly["Body"] <= weekly["Range"] * 0.35)
-    &
-    (weekly["Lower_Wick"] >= weekly["Body"] * 2)
-    &
-    (weekly["Upper_Wick"] <= weekly["Body"] * 0.5)
+weekly["Close_Position"] = (
+    (weekly["Week_Close"] - weekly["Week_Low"])
+    /
+    weekly["Range"]
 )
 
 # ============================================================
-# SHOW HAMMERS
+# STRICT WEEKLY HAMMER CONDITIONS
+# ============================================================
+
+weekly["Hammer"] = (
+    # Small body
+    (weekly["Body"] <= weekly["Range"] * 0.30)
+
+    &
+
+    # Long lower wick
+    (weekly["Lower_Wick"] >= weekly["Body"] * 2.5)
+
+    &
+
+    # Very small upper wick
+    (weekly["Upper_Wick"] <= weekly["Body"] * 0.30)
+
+    &
+
+    # Close in upper 30% of weekly range
+    (weekly["Close_Position"] >= 0.70)
+)
+
+# ============================================================
+# GET HAMMERS
 # ============================================================
 
 hammers = weekly[
@@ -156,14 +232,20 @@ hammers = hammers.sort_values(
     ascending=[False, True]
 )
 
+# ============================================================
+# DISPLAY RESULTS
+# ============================================================
+
 print()
 print("==========================================")
-print("WEEKLY HAMMER SCANNER")
+print("STRICT WEEKLY HAMMER SCANNER")
 print("==========================================")
+
 print(
     "Hammer candles found:",
     len(hammers)
 )
+
 print()
 
 if hammers.empty:
@@ -182,6 +264,7 @@ else:
         "Body",
         "Upper_Wick",
         "Lower_Wick",
+        "Close_Position",
         "Trading_Days"
     ]
 
