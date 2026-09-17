@@ -143,7 +143,10 @@ if lot_df.empty:
     raise SystemExit(0)
 
 print("Lot-size data loaded successfully.")
-
+print("NSE LOT SIZE SAMPLE:")
+print(lot_df.head())
+print("NSE LOT SIZE COLUMNS:")
+print(lot_df.columns.tolist())
 
 print(
     "\nLatest rows:",
