@@ -145,7 +145,19 @@ if lot_df.empty:
 print("Lot-size data loaded successfully.")
 print("NSE LOT SIZE SAMPLE:")
 print(lot_df.head())
+
 print("NSE LOT SIZE COLUMNS:")
+print(lot_df.columns.tolist())
+
+# ============================================================
+# CLEAN NSE LOT SIZE COLUMNS
+# ============================================================
+
+lot_df.columns = lot_df.columns.str.strip()
+
+lot_df["SYMBOL"] = lot_df["SYMBOL"].astype(str).str.strip()
+
+print("Cleaned lot-size columns:")
 print(lot_df.columns.tolist())
 
 print(
