@@ -28,41 +28,19 @@ print("Columns:", df.columns.tolist())
 df.columns = df.columns.str.strip()
 
 # ============================================================
-# CHECK REQUIRED COLUMNS
-# ============================================================
-
-required_columns = [
-    "TradDt",
-    "TckrSymb",
-    "OpnPric",
-    "HghPric",
-    "LwPric",
-    "ClsPric"
-]
-
-missing = [
-    col for col in required_columns
-    if col not in df.columns
-]
-
-if missing:
-    print("Missing columns:", missing)
-    raise SystemExit(1)
-
-# ============================================================
 # CLEAN DATA
 # ============================================================
 
-df["TradDt"] = pd.to_datetime(
-    df["TradDt"],
+df["DATE1"] = pd.to_datetime(
+    df["DATE1"],
     errors="coerce"
 )
 
 for col in [
-    "OpnPric",
-    "HghPric",
-    "LwPric",
-    "ClsPric"
+    "OPEN_PRICE",
+    "HIGH_PRICE",
+    "LOW_PRICE",
+    "CLOSE_PRICE"
 ]:
     df[col] = pd.to_numeric(
         df[col],
@@ -71,40 +49,39 @@ for col in [
 
 df = df.dropna(
     subset=[
-        "TradDt",
-        "TckrSymb",
-        "OpnPric",
-        "HghPric",
-        "LwPric",
-        "ClsPric"
+        "DATE1",
+        "SYMBOL",
+        "OPEN_PRICE",
+        "HIGH_PRICE",
+        "LOW_PRICE",
+        "CLOSE_PRICE"
     ]
 )
 
 # Keep EQ stocks only
-if "SctySrs" in df.columns:
-    df = df[
-        df["SctySrs"].astype(str).str.strip() == "EQ"
-    ].copy()
+df = df[
+    df["SERIES"].astype(str).str.strip() == "EQ"
+].copy()
 
 # ============================================================
 # CREATE WEEKLY OHLC
 # ============================================================
 
 df = df.sort_values(
-    ["TckrSymb", "TradDt"]
+    ["SYMBOL", "DATE1"]
 )
 
-df["WEEK"] = df["TradDt"].dt.to_period("W-FRI")
+df["WEEK"] = df["DATE1"].dt.to_period("W-FRI")
 
 weekly = (
-    df.groupby(["TckrSymb", "WEEK"])
+    df.groupby(["SYMBOL", "WEEK"])
     .agg(
-        Week_Open=("OpnPric", "first"),
-        Week_High=("HghPric", "max"),
-        Week_Low=("LwPric", "min"),
-        Week_Close=("ClsPric", "last"),
-        Trading_Days=("TradDt", "count"),
-        Last_Date=("TradDt", "max")
+        Week_Open=("OPEN_PRICE", "first"),
+        Week_High=("HIGH_PRICE", "max"),
+        Week_Low=("LOW_PRICE", "min"),
+        Week_Close=("CLOSE_PRICE", "last"),
+        Trading_Days=("DATE1", "count"),
+        Last_Date=("DATE1", "max")
     )
     .reset_index()
 )
@@ -113,7 +90,7 @@ weekly = (
 # REMOVE CURRENT INCOMPLETE WEEK
 # ============================================================
 
-latest_date = df["TradDt"].max()
+latest_date = df["DATE1"].max()
 current_week = latest_date.to_period("W-FRI")
 
 weekly = weekly[
@@ -175,7 +152,7 @@ hammers = weekly[
 ].copy()
 
 hammers = hammers.sort_values(
-    ["WEEK", "TckrSymb"],
+    ["WEEK", "SYMBOL"],
     ascending=[False, True]
 )
 
@@ -196,7 +173,7 @@ if hammers.empty:
 else:
 
     display_columns = [
-        "TckrSymb",
+        "SYMBOL",
         "WEEK",
         "Week_Open",
         "Week_High",
