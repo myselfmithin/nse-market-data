@@ -448,12 +448,18 @@ merged = merged[
 ].copy()
 
 
-merged["OI_Volume_Ratio"] = (
+# ============================================================
+# OI / TRADED QUANTITY RATIO
+# ============================================================
 
+merged["OI_Volume_Ratio"] = (
     merged["OpnIntrst"]
     /
-    merged["TtlTradgVol"]
-
+    (
+        merged["TtlTradgVol"]
+        *
+        merged["LotSize"]
+    )
 )
 
 
