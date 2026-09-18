@@ -383,5 +383,19 @@
     "option": "CE",
     "expiry": "29-Sep-2026",
     "strike": 300.0
+  },
+  "2026-09-18_HINDUNILVR_29-Sep-2026_2100.0_CE": {
+    "date": "2026-09-18",
+    "symbol": "HINDUNILVR",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 2100.0
+  },
+  "2026-09-18_KOTAKBANK_29-Sep-2026_425.0_CE": {
+    "date": "2026-09-18",
+    "symbol": "KOTAKBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 425.0
   }
 }
