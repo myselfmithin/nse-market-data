@@ -418,5 +418,12 @@
     "option": "CE",
     "expiry": "29-Sep-2026",
     "strike": 1340.0
+  },
+  "2026-09-24_KOTAKBANK_29-Sep-2026_425.0_CE": {
+    "date": "2026-09-24",
+    "symbol": "KOTAKBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 425.0
   }
 }
