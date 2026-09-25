@@ -425,5 +425,47 @@
     "option": "CE",
     "expiry": "29-Sep-2026",
     "strike": 425.0
+  },
+  "2026-09-25_RELIANCE_29-Sep-2026_1340.0_CE": {
+    "date": "2026-09-25",
+    "symbol": "RELIANCE",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1340.0
+  },
+  "2026-09-25_RELIANCE_29-Sep-2026_1330.0_CE": {
+    "date": "2026-09-25",
+    "symbol": "RELIANCE",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1330.0
+  },
+  "2026-09-25_INFY_29-Sep-2026_1200.0_CE": {
+    "date": "2026-09-25",
+    "symbol": "INFY",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1200.0
+  },
+  "2026-09-25_RELIANCE_29-Sep-2026_1300.0_PE": {
+    "date": "2026-09-25",
+    "symbol": "RELIANCE",
+    "option": "PE",
+    "expiry": "29-Sep-2026",
+    "strike": 1300.0
+  },
+  "2026-09-25_HDFCBANK_29-Sep-2026_710.0_CE": {
+    "date": "2026-09-25",
+    "symbol": "HDFCBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 710.0
+  },
+  "2026-09-25_RELIANCE_29-Sep-2026_1320.0_CE": {
+    "date": "2026-09-25",
+    "symbol": "RELIANCE",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 1320.0
   }
 }
