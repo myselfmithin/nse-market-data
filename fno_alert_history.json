@@ -467,5 +467,12 @@
     "option": "CE",
     "expiry": "29-Sep-2026",
     "strike": 1320.0
+  },
+  "2026-09-28_HDFCBANK_29-Sep-2026_700.0_CE": {
+    "date": "2026-09-28",
+    "symbol": "HDFCBANK",
+    "option": "CE",
+    "expiry": "29-Sep-2026",
+    "strike": 700.0
   }
 }
