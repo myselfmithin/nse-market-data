@@ -481,5 +481,12 @@
     "option": "CE",
     "expiry": "27-Oct-2026",
     "strike": 410.0
+  },
+  "2026-10-07_JIOFIN_27-Oct-2026_240.0_CE": {
+    "date": "2026-10-07",
+    "symbol": "JIOFIN",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 240.0
   }
 }
