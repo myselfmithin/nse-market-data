@@ -488,5 +488,19 @@
     "option": "CE",
     "expiry": "27-Oct-2026",
     "strike": 240.0
+  },
+  "2026-10-09_HDFCBANK_27-Oct-2026_730.0_PE": {
+    "date": "2026-10-09",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "27-Oct-2026",
+    "strike": 730.0
+  },
+  "2026-10-09_TATASTEEL_27-Oct-2026_200.0_CE": {
+    "date": "2026-10-09",
+    "symbol": "TATASTEEL",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 200.0
   }
 }
