@@ -509,5 +509,26 @@
     "option": "CE",
     "expiry": "27-Oct-2026",
     "strike": 240.0
+  },
+  "2026-10-14_TATASTEEL_27-Oct-2026_200.0_CE": {
+    "date": "2026-10-14",
+    "symbol": "TATASTEEL",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 200.0
+  },
+  "2026-10-14_IDEA_27-Oct-2026_15.0_CE": {
+    "date": "2026-10-14",
+    "symbol": "IDEA",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 15.0
+  },
+  "2026-10-14_TCS_27-Oct-2026_2100.0_CE": {
+    "date": "2026-10-14",
+    "symbol": "TCS",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 2100.0
   }
 }
