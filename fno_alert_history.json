@@ -544,5 +544,19 @@
     "option": "PE",
     "expiry": "27-Oct-2026",
     "strike": 1250.0
+  },
+  "2026-10-16_TATASTEEL_27-Oct-2026_200.0_CE": {
+    "date": "2026-10-16",
+    "symbol": "TATASTEEL",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 200.0
+  },
+  "2026-10-16_INFY_27-Oct-2026_1040.0_CE": {
+    "date": "2026-10-16",
+    "symbol": "INFY",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 1040.0
   }
 }
