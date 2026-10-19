@@ -558,5 +558,12 @@
     "option": "CE",
     "expiry": "27-Oct-2026",
     "strike": 1040.0
+  },
+  "2026-10-19_BHARTIARTL_27-Oct-2026_1840.0_CE": {
+    "date": "2026-10-19",
+    "symbol": "BHARTIARTL",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 1840.0
   }
 }
