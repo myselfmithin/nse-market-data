@@ -565,5 +565,19 @@
     "option": "CE",
     "expiry": "27-Oct-2026",
     "strike": 1840.0
+  },
+  "2026-10-22_HDFCBANK_27-Oct-2026_730.0_PE": {
+    "date": "2026-10-22",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "27-Oct-2026",
+    "strike": 730.0
+  },
+  "2026-10-22_BHARTIARTL_27-Oct-2026_1840.0_CE": {
+    "date": "2026-10-22",
+    "symbol": "BHARTIARTL",
+    "option": "CE",
+    "expiry": "27-Oct-2026",
+    "strike": 1840.0
   }
 }
