@@ -726,5 +726,19 @@
     "option": "CE",
     "expiry": "23-Nov-2026",
     "strike": 790.0
+  },
+  "2026-11-18_RELIANCE_23-Nov-2026_1150.0_PE": {
+    "date": "2026-11-18",
+    "symbol": "RELIANCE",
+    "option": "PE",
+    "expiry": "23-Nov-2026",
+    "strike": 1150.0
+  },
+  "2026-11-18_HDFCBANK_23-Nov-2026_730.0_PE": {
+    "date": "2026-11-18",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "23-Nov-2026",
+    "strike": 730.0
   }
 }
