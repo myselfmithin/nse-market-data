@@ -740,5 +740,12 @@
     "option": "PE",
     "expiry": "23-Nov-2026",
     "strike": 730.0
+  },
+  "2026-11-20_HDFCBANK_23-Nov-2026_700.0_PE": {
+    "date": "2026-11-20",
+    "symbol": "HDFCBANK",
+    "option": "PE",
+    "expiry": "23-Nov-2026",
+    "strike": 700.0
   }
 }
