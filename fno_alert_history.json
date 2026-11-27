@@ -747,5 +747,12 @@
     "option": "PE",
     "expiry": "23-Nov-2026",
     "strike": 700.0
+  },
+  "2026-11-27_RELIANCE_29-Dec-2026_1350.0_CE": {
+    "date": "2026-11-27",
+    "symbol": "RELIANCE",
+    "option": "CE",
+    "expiry": "29-Dec-2026",
+    "strike": 1350.0
   }
 }
